@@ -24,6 +24,6 @@ func JSONStatusInternalServerError(c *gin.Context, err error, message string) {
 	c.JSON(http.StatusBadRequest, gin.H{
 		"success": false,
 		"message": message,
-		"reason":  err.Error(),
+		"error":   err.Error(),
 	})
 }

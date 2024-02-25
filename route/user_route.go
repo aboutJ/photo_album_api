@@ -10,4 +10,7 @@ func InitUserRoute(r *gin.Engine) {
 	r.PUT("/user", service.AddUser)
 	// 删除用户
 	r.DELETE("/user/:id", service.DeleteUser)
+	// TODO 修改用户信息
+
+	// TODO 查询用户信息
 }

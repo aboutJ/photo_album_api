@@ -13,3 +13,9 @@ func AddUser(user *model.User) error {
 func DeleteUser(id uint64) {
 	config.DB.Delete(&model.User{}, id)
 }
+
+func FindUserByEmail(email string) ([]model.User, error) {
+	var users []model.User
+	result := config.DB.Find(&users, "email=?", email)
+	return users, result.Error
+}

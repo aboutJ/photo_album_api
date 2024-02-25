@@ -1,6 +1,7 @@
 package service
 
 import (
+	"errors"
 	"github.com/gin-gonic/gin"
 	"photo_album/config"
 	"photo_album/dao"
@@ -18,6 +19,18 @@ func AddUser(c *gin.Context) {
 		return
 	}
 
+	// 每个用户的邮箱不能相同
+	var users []model.User
+	users, err = dao.FindUserByEmail(user.Email)
+	if err != nil {
+		JSONStatusInternalServerError(c, err, "数据库操作异常")
+		return
+	}
+	if len(users) >= 1 {
+		JSONStatusBadRequest(c, errors.New("邮箱已被注册，请换个邮箱"))
+		return
+	}
+
 	user.CreatedAt = time.Now()
 	user.UpdatedAt = time.Now()
 	// 加密密码
@@ -28,6 +41,7 @@ func AddUser(c *gin.Context) {
 		return
 	}
 	JSONStatusOk(c, "新增用户成功", nil)
+
 	// TODO 给新用户的邮箱发送注册成功的邮件
 }
 
@@ -39,5 +53,4 @@ func DeleteUser(c *gin.Context) {
 		return
 	}
 	dao.DeleteUser(id)
-
 }
