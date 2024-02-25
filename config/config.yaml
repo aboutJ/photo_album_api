@@ -1,0 +1,7 @@
+# mysql
+mysql:
+  username: root
+  password: 1015712212Zff
+  url: 127.0.0.1
+  port: 3306
+  database: photo_album
